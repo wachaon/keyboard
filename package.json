@@ -1,0 +1,23 @@
+{
+  "name": "keyboard",
+  "version": "0.0.2",
+  "description": "wsh keyboard",
+  "main": "index.js",
+  "scripts": {
+    "bundle": "wes bundle ./src/compile.js ./src/keyboard.cs ./usage.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wachaon/keyboard.git"
+  },
+  "keywords": [
+    "wsh",
+    "keyboard"
+  ],
+  "author": "wachaon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wachaon/keyboard/issues"
+  },
+  "homepage": "https://github.com/wachaon/keyboard#readme"
+}
