@@ -1,10 +1,10 @@
 {
   "name": "keyboard",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "wsh keyboard",
   "main": "index.js",
   "scripts": {
-    "bundle": "wes bundle ./src/compile.js ./src/keyboard.cs ./usage.js"
+    "bundle": "wes bundle ./src/keyboard.cs ./usage.js"
   },
   "repository": {
     "type": "git",

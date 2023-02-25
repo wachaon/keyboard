@@ -1,49 +1,42 @@
 const WShell = require('WScript.Shell')
-
-const { readFileSync, existsFileSync } = require('filesystem')
-const { resolve, basename, extname } = require('pathname')
+const { existsFileSync } = require('filesystem')
+const { resolve } = require('pathname')
 const { isString, isNumber } = require('typecheck')
+const { unnamed, get } = require('argv')
+const isCLI = require('isCLI')
 const { execCommand } = require('utility')
-const ps = require('ps')
+const { execScript, compile } = require('csharpscript')
 
 // keyboard
-const keyboard_cs = generate('src/keyboard.cs', 2)
+const keyboard_cs = resolve(__dirname, 'src/keyboard.cs')
 const keyboard_exe = resolve(__dirname, 'keyboard.exe')
 const exists_keyboard_exe = existsFileSync(keyboard_exe)
+const Keyboard = 'keyboard'
+const Main = 'Main'
 
 // keyboard method
 function send(keyCode) {
     if (isString(keyCode)) WShell.SendKeys(keyCode)
     if (isNumber(keyCode)) {
         if (exists_keyboard_exe) execCommand(`${keyboard_exe} send ${keyCode}`)
-        else ps(keyboard_cs, ['send', keyCode])
+        else execScript(keyboard_cs, Keyboard, Main, 'send', keyCode)
     }
 }
 
 function press(keyCode) {
     if (exists_keyboard_exe) execCommand(`${keyboard_exe} press ${keyCode}`)
-    else ps(keyboard_cs, ['press', keyCode])
+    else execScript(keyboard_cs, Keyboard, Main, 'press', keyCode)
 }
 
 function release(keyCode) {
     if (exists_keyboard_exe) execCommand(`${keyboard_exe} release ${keyCode}`)
-    else ps(keyboard_cs, ['release', keyCode])
+    else execScript(keyboard_cs, Keyboard, Main, 'release', keyCode)
 }
 
-function generate(spec, len = 0) {
-    const file = resolve(__dirname, spec)
-    const program = basename(file, extname(file))
-    const args = len ? (new Array(len)).fill(0).map((arg, i) => `$args[${i}]`).join(', ') : ''
-    const source = readFileSync(file, 'auto')
-    const code = `$Source = @"
-${source}"@
-
-Add-Type -Language CSharp -TypeDefinition $Source
-[${program}]::Main(${args})`
-    return code
-}
-
-module.exports = {
+// cli
+if (isCLI(__filename)) {
+    if (get('c') || get('compile') || unnamed[1] === 'compile') compile(keyboard_cs, { out: keyboard_exe })
+} else module.exports = {
     send,
     press,
     release,
