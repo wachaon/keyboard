@@ -1,6 +1,6 @@
 {
   "name": "keyboard",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "wsh keyboard",
   "main": "index.js",
   "scripts": {
@@ -19,5 +19,10 @@
   "bugs": {
     "url": "https://github.com/wachaon/keyboard/issues"
   },
-  "homepage": "https://github.com/wachaon/keyboard#readme"
+  "homepage": "https://github.com/wachaon/keyboard#readme",
+  "wes": {
+    "dependencies": {
+      "csharpscript": "0.0.4"
+    }
+  }
 }
